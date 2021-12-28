@@ -4,8 +4,6 @@ This a repository holding deliverables/tutorials.
 
 ### Markdown
 
-
-
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
 ```markdown
