@@ -2,6 +2,8 @@
 
 This a repository holding deliverables/tutorials.
 
+- [Link](https://github.com/DavidMartinConsulting/DM_Consulting/edit/gh-pages/index.md)https://github.com/DavidMartinConsulting/DM_Consulting/edit/gh-pages/predanalytics.pdf
+- 
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
