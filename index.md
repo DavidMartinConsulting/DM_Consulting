@@ -2,7 +2,7 @@
 
 This a repository holding deliverables/tutorials.
 
-- [Link to Predictive Analytics](https://github.com/DavidMartinConsulting/DM_Consulting/edit/gh-pages/predanalytics.pdf)
+- [Link to Predictive Analytics](https://github.com/DavidMartinConsulting/DM_Consulting/edit/gh-pages/pred_analytics.pdf)
  
 ### Markdown
 
