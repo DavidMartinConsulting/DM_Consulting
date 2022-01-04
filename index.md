@@ -1,5 +1,3 @@
-## David Martin Consulting
-
 This a repository holding deliverables/tutorials.
 
 <li><a href="GitHub_Packages.html">Efficiently Utlizing Packages from GitHub (In progress) </a></li> 
