@@ -17,14 +17,22 @@ This a repository holding deliverables/tutorials.
     <li><a href="">OCTOPUS Flowchart (Empty)</a></li> 
     <li><a href="">Single ISA with Binary Endpoint Example (Empty)</a></li> 
     <li><a href="">Other Examples (Empty)</a></li> 
-  </ul>
+  </ul></nav>
   
- <nav aria-label="Other">
+ <nav aria-label="Reproducibility">
+<b>Comparing RENV, Docker, and Checkpoint</b>
+  <ul>
+    <li><a href="">Using RENV (In Progress)</a></li> 
+    <li><a href="">Using Docker (Empty)</a></li> 
+    <li><a href="">Using Checkpoint (Empty)</a></li> 
+    <li><a href="">Comparisons (Empty) </a></li> 
+   </ul></nav>
+  
+  <nav aria-label="Other">
 <b>Other</b>
   <ul>
-<li><a href="">Comparing Checkpoint, Docker, and RENV (Empty)</a></li> 
 <li><a href="">Runtime and Development Testing with TestThat/AssertR/Others (Empty)</a></li> 
-
+  </ul></nav>
 <!--<li><a href="pred_analytics.html">Pred Analytics</a></li> -->
 <!--<li><a href="/pred_analytics.html?rawue">Pred Analytics</a></li> -->
 
