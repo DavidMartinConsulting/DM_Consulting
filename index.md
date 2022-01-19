@@ -19,6 +19,9 @@ This a repository holding deliverables/tutorials.
     <li><a href="">Other Examples (Empty)</a></li> 
   </ul>
   
+ <nav aria-label="Other">
+<b>Other</b>
+  <ul>
 <li><a href="">Comparing Checkpoint, Docker, and RENV (Empty)</a></li> 
 <li><a href="">Runtime and Development Testing with TestThat/AssertR/Others (Empty)</a></li> 
 
