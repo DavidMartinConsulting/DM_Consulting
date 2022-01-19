@@ -2,14 +2,23 @@
 
 This a repository holding deliverables/tutorials.
 
-<nav aria-label="Primary">
-Using GitHub
+<nav aria-label="GitHub">
+  <b>Using GitHub</b>
   <ul>
     <li><a href="GitHub_Packages.html">Efficiently Utlizing Packages from GitHub</a></li> 
-      <li><a href="GitHub_Usage.html">Using GitHub at the Office (Empty)</a></li> 
+    <li><a href="GitHub_Usage.html">Using GitHub at the Office (Empty)</a></li> 
   </ul>
 </nav> 
-<li><a href="Octopus.html">Octopus (In progress)</a></li> 
+
+<nav aria-label="Octopus">
+<b>Octopus</b>
+  <ul>
+    <li><a href="Octopus.html">Overview of OCTOPUS (In progress)</a></li> 
+    <li><a href="">OCTOPUS Flowchart (Empty)</a></li> 
+    <li><a href="">Single ISA with Binary Endpoint Example (Empty)</a></li> 
+    <li><a href="">Other Examples (Empty)</a></li> 
+  </ul>
+  
 <li><a href="">Comparing Checkpoint, Docker, and RENV (Empty)</a></li> 
 <li><a href="">Runtime and Development Testing with TestThat/AssertR/Others (Empty)</a></li> 
 
