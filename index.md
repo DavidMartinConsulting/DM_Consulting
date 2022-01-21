@@ -24,7 +24,7 @@ This a repository holding deliverables/tutorials.
   <ul>
     <li><a href="">Using RENV (In Progress)</a></li> 
     <li><a href="">Using Docker (Empty)</a></li> 
-    <li><a href="">Using Checkpoint (In Progress)</a></li> 
+    <li><a href="Checkpoint.html">Using Checkpoint (In Progress)</a></li> 
     <li><a href="">Comparisons (Empty) </a></li> 
    </ul></nav>
   
