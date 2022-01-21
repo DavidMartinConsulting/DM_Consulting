@@ -24,7 +24,7 @@ This a repository holding deliverables/tutorials.
   <ul>
     <li><a href="Octopus.html">Overview of OCTOPUS (In progress)</a></li> 
     <li><a href="">OCTOPUS Flowchart (Empty)</a></li> 
-    <li><a href="">Single ISA with Binary Endpoint Example (Empty)</a></li> 
+    <li><a href="SimulationReport.html">Single ISA with Binary Endpoint Example (Partial)</a></li> 
     <li><a href="">Other Examples (Empty)</a></li> 
   </ul></nav>
 
