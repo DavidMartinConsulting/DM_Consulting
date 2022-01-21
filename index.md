@@ -20,11 +20,11 @@ This a repository holding deliverables/tutorials.
   </ul></nav>
   
  <nav aria-label="Reproducibility">
-<b>Comparing RENV, Docker, and Checkpoint</b>
+<b>Comparing RENV, Checkpoint, and Docker</b>
   <ul>
     <li><a href="RENV.html">Using RENV</a></li> 
-    <li><a href="">Using Docker (Empty)</a></li> 
     <li><a href="Checkpoint.html">Using Checkpoint</a></li> 
+    <li><a href="">Using Docker (Empty)</a></li> 
     <li><a href="">Comparisons (Empty) </a></li> 
    </ul></nav>
   
