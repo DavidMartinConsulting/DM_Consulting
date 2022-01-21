@@ -22,9 +22,9 @@ This a repository holding deliverables/tutorials.
  <nav aria-label="Reproducibility">
 <b>Comparing RENV, Docker, and Checkpoint</b>
   <ul>
-    <li><a href="">Using RENV (In Progress)</a></li> 
+    <li><a href="RENV.html">Using RENV</a></li> 
     <li><a href="">Using Docker (Empty)</a></li> 
-    <li><a href="Checkpoint.html">Using Checkpoint (In Progress)</a></li> 
+    <li><a href="Checkpoint.html">Using Checkpoint</a></li> 
     <li><a href="">Comparisons (Empty) </a></li> 
    </ul></nav>
   
