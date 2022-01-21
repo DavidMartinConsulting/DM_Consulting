@@ -10,15 +10,6 @@ This a repository holding deliverables/tutorials.
   </ul>
 </nav> 
 
-<nav aria-label="Octopus">
-<b>Octopus</b>
-  <ul>
-    <li><a href="Octopus.html">Overview of OCTOPUS (In progress)</a></li> 
-    <li><a href="">OCTOPUS Flowchart (Empty)</a></li> 
-    <li><a href="">Single ISA with Binary Endpoint Example (Empty)</a></li> 
-    <li><a href="">Other Examples (Empty)</a></li> 
-  </ul></nav>
-  
  <nav aria-label="Reproducibility">
 <b>Comparing RENV, Checkpoint, and Docker</b>
   <ul>
@@ -27,7 +18,16 @@ This a repository holding deliverables/tutorials.
     <li><a href="">Using Docker (Empty)</a></li> 
     <li><a href="">Comparisons (Empty) </a></li> 
    </ul></nav>
-  
+   
+<nav aria-label="Octopus">
+<b>Octopus</b>
+  <ul>
+    <li><a href="Octopus.html">Overview of OCTOPUS (In progress)</a></li> 
+    <li><a href="">OCTOPUS Flowchart (Empty)</a></li> 
+    <li><a href="">Single ISA with Binary Endpoint Example (Empty)</a></li> 
+    <li><a href="">Other Examples (Empty)</a></li> 
+  </ul></nav>
+
   <nav aria-label="Other">
 <b>Other</b>
   <ul>
