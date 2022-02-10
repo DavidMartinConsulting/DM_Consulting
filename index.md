@@ -31,7 +31,7 @@ This a repository holding deliverables/tutorials.
   <nav aria-label="Other">
 <b>Other</b>
   <ul>
-<li><a href="Event_Prediction.html">Comparing Event Prediction Packages (In Progress)</a></li> 
+<li><a href="Event_Prediction.html">Comparing Event Prediction Packages</a></li> 
 <li><a href="">Runtime and Development Testing with TestThat/AssertR/Others (Empty)</a></li> 
   </ul></nav>
 <!--<li><a href="pred_analytics.html">Pred Analytics</a></li> -->
