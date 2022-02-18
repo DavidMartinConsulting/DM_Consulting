@@ -200,7 +200,7 @@
       <li><a href="#expectations">Expectations</a></li>
       <li><a href="#writing-tests">Writing Tests</a></li>
       <li><a href="#what-to-test">What to test</a></li>
-      <li><a href="#skipping-at-test">Skipping at test</a></li>
+      <li><a href="#skipping-a-test">Skipping a test</a></li>
       <li><a href="#building-your-own-testing-tools">Building your own testing tools</a></li>
       <li><a href="#test-files">Test Files</a></li>
       </ul></li>
@@ -369,8 +369,8 @@
 <li><p>Always write a test when you discover a bug. You may find it helpful to adopt the test-first philosophy. There you always start by writing the tests, and then write the code that makes them pass. This reflects an important problem solving strategy: start by establishing your success criteria, how you know if you’ve solved the problem.</p></li>
 </ul>
 </div>
-<div id="skipping-at-test" class="section level2">
-<h2>Skipping at test</h2>
+<div id="skipping-a-test" class="section level2">
+<h2>Skipping a test</h2>
 <p>Sometimes it’s impossible to perform a test - you may not have an internet connection or you may be missing an important file. Unfortunately, another likely reason follows from this simple rule: the more machines you use to write your code, the more likely it is that you won’t be able to run all of your tests. In short, there are times when, instead of getting a failure, you just want to skip a test. To do that, you can use the <code>skip()</code> function - rather than throwing an error it simply prints an S in the output.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>check_api <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">not_working</span>()) {</span>
