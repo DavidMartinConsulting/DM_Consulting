@@ -216,6 +216,7 @@
    
 <!-- Don't indent these lines or it will mess pre blocks indentation --> 
 <div id="main">
+<p><a href="https://github.com/DavidMartinConsulting/DM_Consulting/blob/gh-pages/testing_functions.zip?raw=true">Download Materials</a></p>
 <div id="testthat" class="section level1">
 <h1><a href="https://testthat.r-lib.org/">testthat</a></h1>
 <p>The purpose of this document is to go over the package <code>testthat</code>. The <code>testthat</code> package is used to test your code in a systematic way that can help to improve the quality and accuracy of the code you have written.</p>
@@ -280,18 +281,18 @@
 <li><p>A <b>test</b> groups together multiple expectations to test the output from a simple function, a range of possibilities for a single parameter from a more complicated function, or tightly related functionality from across multiple functions. This is why they are sometimes called unit as they test one unit of functionality. A test is created with <code>test_that()</code>.</p></li>
 <li><p>A <b>file</b> groups together multiple related tests. Files are given a human readable name with context().</p></li>
 </ul>
-<p>More detail is provided below about <b>Expectations</b>, <b>Tests</b>, and <b>files</b>.</p>
+<p>More detail is provided below about <b>Expectations</b>, <b>Tests</b>, and <b>Files</b>.</p>
 <div id="expectations" class="section level2">
 <h2>Expectations</h2>
 <p>An expectation is the finest level of testing. It makes a binary assertion about whether or not a function call does what you expect. All expectations have a similar structure:</p>
 <ul>
-<li><p>They start with expect_.</p></li>
+<li><p>They start with <code>expect_</code>.</p></li>
 <li><p>They have two arguments: the first is the actual result, the second is what you expect.</p></li>
-<li><p>If the actual and expected results don’t agree, testthat throws an error.</p></li>
+<li><p>If the actual and expected results don’t agree, <code>testthat</code> throws an error.</p></li>
 </ul>
-<p>While you’ll normally put expectations inside tests inside files, you can also run them directly. This makes it easy to explore expectations interactively. There are almost 20 expectations in the testthat package. The most important are discussed below.</p>
+<p>While you’ll normally put expectations inside tests inside files, <b>you can also run them directly</b>. This makes it easy to explore expectations interactively. There are almost 20 expectations in the testthat package. The most important are discussed below.</p>
 <ul>
-<li>There are two basic ways to test for equality: expect_equal(), and expect_identical(). expect_equal() is the most commonly used: it uses all.equal() to check for equality within a numerical tolerance:</li>
+<li>There are two basic ways to test for equality: <code>expect_equal()</code>, and <code>expect_identical()</code>. <code>expect_equal()</code> is the most commonly used: it uses all.equal() to check for equality within a numerical tolerance:</li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expect_equal</span>(<span class="dv">10</span>, <span class="dv">10</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">expect_equal</span>(<span class="dv">10</span>, <span class="dv">10</span> <span class="sc">+</span> <span class="fl">1e-7</span>)</span>
@@ -316,7 +317,7 @@
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Additional arguments are passed to grepl:</span></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">expect_match</span>(string, <span class="st">&quot;testing&quot;</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>Four variations of <code>expect_match()</code> let you check for other types of result: expect_output(), inspects printed output; <code>expect_message()</code>, messages; <code>expect_warning()</code>, warnings; and <code>expect_error()</code> errors.</p>
+<p>Four variations of <code>expect_match()</code> let you check for other types of result: <code>expect_output()</code>, inspects printed output; <code>expect_message()</code>, messages; <code>expect_warning()</code>, warnings; and <code>expect_error()</code> errors.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, letters)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">expect_output</span>(<span class="fu">str</span>(a), <span class="st">&quot;List of 2&quot;</span>)</span>
@@ -336,8 +337,8 @@
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="do">### WOULD SAY Error: `log(0)` did not produce any warnings.</span></span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># expect_error(1 / 2) </span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># WOUD SAY Error: `1/2` did not throw an error.</span></span></code></pre></div>
-<p><code>expect_is()</code> checks that an object inherit()s from a specified class.</p>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># WOULD SAY Error: `1/2` did not throw an error.</span></span></code></pre></div>
+<p><code>expect_is()</code> checks that an object <code>inherit()</code>s from a specified class.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> mtcars)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">expect_is</span>(model, <span class="st">&quot;lm&quot;</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># expect_is(model, &quot;glm&quot;)</span></span>
@@ -442,7 +443,7 @@
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  Error: floor_date(base, &quot;year&quot;) not equal to as_time(&quot;2008-01-01 00:00:00&quot;).</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1/1 mismatches</span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 2009-01-01 - 2008-01-01 == 366 days </span></span></code></pre></div>
-<p>Instead you can use a little non-standard evaluation to produce something more informative. The key is to use bquote() and eval(). In the bquote() call below, note the use of .(x) - the contents of () will be inserted into the call.</p>
+<p>Instead you can use a little non-standard evaluation to produce something more informative. The key is to use <code>bquote()</code> and <code>eval()</code>. In the <code>bquote()</code> call below, note the use of .(x) - the contents of () will be inserted into the call.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>expect_floor_equal <span class="ot">&lt;-</span> <span class="cf">function</span>(unit, time) {</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  as_time <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">as.POSIXct</span>(x, <span class="at">tz =</span> <span class="st">&quot;UTC&quot;</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">eval</span>(<span class="fu">bquote</span>(<span class="fu">expect_equal</span>(<span class="fu">floor_date</span>(base, .(unit)), <span class="fu">as_time</span>(.(time)))))</span>
