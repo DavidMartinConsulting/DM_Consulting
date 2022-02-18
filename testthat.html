@@ -192,7 +192,7 @@
     <h2><a href="#content">Using the testthat Package</a></h2>
     <div id="toc">
       <ul>
-      <li><a href="#testthat">testthat</a></li>
+      <li><a href="#testthat"><span>testthat</span></a></li>
       <li><a href="#getting-started">Getting Started</a></li>
       <li><a href="#workflow">Workflow</a></li>
       <li><a href="#structure-of-a-test">Structure of a test</a>
@@ -217,16 +217,18 @@
 <!-- Don't indent these lines or it will mess pre blocks indentation --> 
 <div id="main">
 <div id="testthat" class="section level1">
-<h1>testthat</h1>
-<p>Testing your code can be painful and tedious, but it greatly increases the quality of your code. testthat tries to make testing as fun as possible, so that you get a visceral satisfaction from writing tests. Testing should be addictive, so you do it all the time. To make that happen, testthat:</p>
+<h1><a href="https://testthat.r-lib.org/">testthat</a></h1>
+<p>The purpose of this document is to go over the package <code>testthat</code>. The <code>testthat</code> package is used to test your code in a systematic way that can help to improve the quality and accuracy of the code you have written.</p>
+<p>The main functionality of the <code>testthat</code> package can be found below:</p>
 <ul>
-<li><p>Provides functions that make it easy to describe what you expect a function to do, including catching errors, warnings, and messages.</p></li>
-<li><p>Easily integrates in your existing workflow, whether it’s informal testing on the command line, building test suites, or using R CMD check.</p></li>
-<li><p>Displays test progress visually, showing a pass, fail, or error for every expectation. If you’re using the terminal or a recent version of RStudio, it’ll even colour the output.</p></li>
+<li><p>It allows the programmer to use functions that can describe what a function should do, which can include things such as catching errors, warnings, and messages.</p></li>
+<li><p>It is built to be a part of the normal programming workflow</p></li>
+<li><p>It provides a visual result for every time a test passes, fails or has an error.</p></li>
 </ul>
 </div>
 <div id="getting-started" class="section level1">
 <h1>Getting Started</h1>
+<p>To get started, we just need to install the <code>testthat</code> package from the CRAN or a dev version from GitHub.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install the released version from CRAN</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;testthat&quot;)</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -236,17 +238,13 @@
 </div>
 <div id="workflow" class="section level1">
 <h1>Workflow</h1>
-<p>To get started with <code>testthat</code>, you can run:</p>
+<p>To get started using the <code>testthat</code> package, you run the following code:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_testthat</span>()</span></code></pre></div>
 <pre><code>## v Setting active project to &#39;C:/Users/dnm5ca/Desktop/DMC/Pages/testing_functions&#39;</code></pre>
 <pre><code>## v Leaving &#39;tests/testthat.R&#39; unchanged</code></pre>
 <pre><code>## * Call `use_test()` to initialize a basic test file and open it for editing.</code></pre>
-<ul>
-<li>This creates a tests/testthat directory</li>
-<li>Adds <code>testthat</code> to the Suggests field in the DESCRIPTION</li>
-<li>Create a file tests/testthat.R that runs all your tests when R CMD check runs</li>
-</ul>
-<p>Once the setup is complete we then follow the following workflow: - Modify your code or tests - Test your package/function with Ctrl/CMD + Shift + T or <code>devtools::test()</code> - And then keep going until you pass all tests.</p>
+<p>This function does the following three things: - It creates a tests/testthat directory that is necessary for testing - It adds <code>testthat</code> to the Suggests field in the DESCRIPTION (The file created to describe what a package does and what it needs) - Creates a file tests/testthat.R that runs all your tests when R CMD check runs</p>
+<p>Once the initial setup is finished, you generally follow the following workflow: - Modify your code or tests - Test your package/function with Ctrl/CMD + Shift + T or <code>devtools::test()</code> - And then keep going until you pass all tests.</p>
 </div>
 <div id="structure-of-a-test" class="section level1">
 <h1>Structure of a test</h1>
@@ -278,11 +276,11 @@
 ## Test passed</code></pre>
 <p>Tests are organised hierarchically: expectations are grouped into tests which are organised in files:</p>
 <ul>
-<li><p>An expectation is the atom of testing. It describes the expected result of a computation: Does it have the right value and right class? Does it produce error messages when it should? An expectation automates visual checking of results in the console. Expectations are functions that start with expect_.</p></li>
-<li><p>A test groups together multiple expectations to test the output from a simple function, a range of possibilities for a single parameter from a more complicated function, or tightly related functionality from across multiple functions. This is why they are sometimes called unit as they test one unit of functionality. A test is created with test_that() .</p></li>
-<li><p>A file groups together multiple related tests. Files are given a human readable name with context().</p></li>
+<li><p>An <b> expectation </b> describes the expected result of a computation: Does it have the right value and right class? Does it produce error messages when it should? An expectation automates visual checking of results in the console. Expectations are functions that start with <code>expect_</code>.</p></li>
+<li><p>A <b>test</b> groups together multiple expectations to test the output from a simple function, a range of possibilities for a single parameter from a more complicated function, or tightly related functionality from across multiple functions. This is why they are sometimes called unit as they test one unit of functionality. A test is created with <code>test_that()</code>.</p></li>
+<li><p>A <b>file</b> groups together multiple related tests. Files are given a human readable name with context().</p></li>
 </ul>
-<p>These are described in detail below.</p>
+<p>More detail is provided below about <b>Expectations</b>, <b>Tests</b>, and <b>files</b>.</p>
 <div id="expectations" class="section level2">
 <h2>Expectations</h2>
 <p>An expectation is the finest level of testing. It makes a binary assertion about whether or not a function call does what you expect. All expectations have a similar structure:</p>
