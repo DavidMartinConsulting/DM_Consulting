@@ -2,6 +2,14 @@
 
 This a repository holding deliverables/tutorials.
 
+<nav aria-label="deliverables">
+  <b>Current Deliverables </b>
+  <ul>
+    <li><a href="deliverables.html">PDF Comments, PPT Survival, Narrative Tables</a></li> 
+  </ul>
+</nav> 
+
+
 <nav aria-label="GitHub">
   <b>Using GitHub</b>
   <ul>
