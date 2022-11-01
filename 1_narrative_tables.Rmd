@@ -1,0 +1,560 @@
+---
+title: "Creating Narrative Tables Using flextable and Markdown"
+output: rmdformats::readthedown
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+#install.packages("flair")
+library(flair)
+```
+
+# Files
+
+[Materials](Narrative_Table_Example.zip?raw=true)
+
+Download Materials to practice on your own. Download, unzip, click on "Click_Here_to_Start.Rproj" and then inside of RStudio click on "creating_narrative_tables_in_word.Rmd"
+
+# Purpose of This Section
+
+This first chapter will cover how to use the `flextable` package in R in conjunction with Markdown to create full Narrative tables in Word. By combining these two facets of R, you can go from individual data all the way through a final narrative document in a few simple steps.
+
+This document extensively uses the `tidyverse` package and `markdown`. Tutorials for these can be found here:
+
+-   [tidyverse](https://datacarpentry.org/R-ecology-lesson/03-dplyr.html)
+
+-   [`markdown`](https://rmarkdown.rstudio.com/lesson-1.html)
+
+## `flextable`
+
+The [flextable](https://cran.r-project.org/web/packages/flextable/readme/README.html) package is a package that provides a framework for creating tables in R that can be output into any format. Many table packages in R have trouble outputting to Word, while `flextable` does not have that issue. The `flextable` package also allows you to create unique and highly specific types of tables. This chapter is going to show you how to create tables in pieces and how to combine those pieces into almost any shape that you might want.
+
+## Getting Started
+
+The first step you need to take is to install the `flextable` package, as well as the `ftExtra` package (an extension of `flextable`). We will also need to use the `tidyverse` series of functions/packages and the `officer` package which works with microsoft products.
+
+```{r}
+# install.packages("flextable")
+# install.packages("ftExtra")
+# install.packages("tidyverse")
+# install.packages("officer")
+library(flextable)
+library(ftExtra)
+library(tidyverse)
+library(officer)
+```
+
+I am going to use a simple dataset with only one subject. In the future I will hope to expand this example to a more applicable dataset.
+
+```{r}
+samp <- read_csv("https://raw.githubusercontent.com/DavidMartinConsulting/Compendium/gh-pages/sample.csv") %>% 
+  filter(subj_id == 1)
+
+```
+
+## Using `flextable`
+
+An initial table can be created using the `flextable` function. A basic `flextable` can be created by using our sample data as the input into the `flextable` function.
+
+```{r, echo = FALSE}
+ decorate('
+ 
+ samp %>% 
+  flextable()
+  
+  ', eval = FALSE) %>% 
+   flair_lines(2) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+ samp %>% 
+   flextable()
+```
+
+This is more than likely not what you are looking for, since it is essentially reproducing the full dataset. You will more than likely want to select a few variables that you want to investigate further, which you can do using the `select` function from the `tidyverse` package.
+
+```{r, echo = FALSE}
+ decorate('
+ 
+samp %>% 
+  select(subj_id, protocol, age) %>% 
+  flextable()
+  
+  ', eval = FALSE) %>% 
+   flair_lines(2) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+samp %>% 
+  select(subj_id, protocol, age) %>% 
+  flextable()
+```
+
+However, this table is very simple and may not be what you are looking for. Many packages in R can create aesthetically pleasing and useful tables that can show your data. The main purpose of this document is to show you how you can use the functionality of `flextable` to create a highly unique table that fits your needs, so that instead of having a table that looks like a recreated spreadsheet, you have one that can look like this:
+
+![](narrative_table.png)
+
+In this example we are going to be recreating the first 4 rows to illustrate some of the basics of the `flextable` package.
+
+With `flextable` you can have multiple cells merged together, split columns, and many other options that you would have if you were manually editing a table in Word, however, you can now do it in a programmatic sense. I am going to walkthrough how to create a simplified version of the picture above and highlight some of the important functions that are available in `flextable`.
+
+## Building a customized `flextable`
+
+The main thing to note about the table from the picture above is that it is not one single table, but a series of small `flextables` appended together. Each of the individual `flextables` will have their own properties and their own variables to showcase. The first portion I want to look at is the top portion of the table:
+
+![](part1.png)
+
+This portion contains the name of the table, the `Study Protocol Number`, and the `Age` and `Sex` of the patient. Note, that the `Age` and `Sex` are within one single cell and not separated out into different cells. To get started, let's create a `flextable` as we did earlier.
+
+```{r, echo = FALSE}
+ decorate('
+ 
+samp %>% 
+  select(protocol, age, sex) %>% 
+  flextable()
+  
+  ', eval = FALSE) %>% 
+   flair_lines(2) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+samp %>% 
+  select(protocol, age, sex) %>% 
+  flextable()
+```
+
+This of course does not look anything like what we had before. First thing I want to do is add the title of the table. To do this, we use the `add_header_lines` function which is used to add labels across the top of a row of data. Here, we specify what we want to show up in the new row by using the `values =` option.
+
+```{r, echo = FALSE}
+ decorate('
+ 
+samp %>% 
+  select(protocol, age, sex) %>% 
+  flextable() %>% 
+  add_header_lines(values = c("SUBJECT NARRATIVE"))
+  
+  ', eval = FALSE) %>% 
+   flair_lines(4) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+samp %>% 
+  select(protocol, age, sex) %>% 
+  flextable() %>% 
+  add_header_lines(values = c("SUBJECT NARRATIVE"))
+```
+
+Aesthetically it does not look like what we were expecting, but I will show functions to fix that later on. Our next step is to turn the second two rows into one row and to split the `protocol` from `age` and `sex`. This step is actually done using the `dplyr` package and by utilizing the `mutate` and `paste` functions.
+
+```{r, echo = FALSE}
+ decorate('
+ 
+samp %>% 
+  mutate(age_sex = paste0("Age: ", age, "  ",
+      "Sex: ", sex),  
+      protocol = paste0("Study Protocol Number: ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  add_header_lines(values = c("SUBJECT NARRATIVE"))
+  
+  ', eval = FALSE) %>% 
+   flair_lines(2:4) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+samp %>% 
+  mutate(age_sex = paste0("Age: ", age, "  ",
+       "Sex: ", sex),  protocol = paste0("Study Protocol Number: ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  add_header_lines(values = c("SUBJECT NARRATIVE"))
+```
+
+I now want to get rid of the column names for these two new columns. To do this, I can use the `delete_part` function. The `delete_part` function allows you to specify a part of the `flextable` that you want to get rid of.
+
+```{r, echo = FALSE}
+ decorate('
+ 
+samp %>% 
+  mutate(age_sex = paste0("Age: ", age, "  ",
+       "Sex: ", sex),  protocol = paste0("Study Protocol Number: ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  delete_part(part = "header") %>%  #This is the default, 
+                            #but could be body or footer as well
+  add_header_lines(values = c("SUBJECT NARRATIVE")) 
+  
+  ', eval = FALSE) %>% 
+   flair_lines(6:7) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+samp %>% 
+  mutate(age_sex = paste0("Age: ", age, "  ",
+       "Sex: ", sex),  protocol = paste0("Study Protocol Number: ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  delete_part(part = "header") %>%  #This is the default, but could be body or footer as well
+  add_header_lines(values = c("SUBJECT NARRATIVE")) 
+```
+
+Make sure to have the `add_header_lines` function after `delete_part` or it would be deleted as well.
+
+Now we have the content that we were looking for, but we need to make it look the way we want it to look. To do this I am going to illustrate a few functions that allow you to set your aesthetic options. The first function is the `align` function. The `align` function allows you to left, right, or center justify whatever row/column that you want to. In this case we are going to center the header. We are also going to bold the header by using the `bold` function. We are going to set the font name by using the `font` function and apply it to all of the table. Finally, we are going to use the `width` function to set the overall width of this part of the table, as it is currently quite narrow. Note that the width is the size for each column. So here, we have 2 columns so the total width of the table is 6. I will show you how to do variable widths later on.
+
+```{r, echo = FALSE}
+ decorate('
+ 
+samp %>% 
+  mutate(age_sex = paste0("Age: ", age, "  ",
+       "Sex: ", sex),  protocol = paste0("Study Protocol Number: ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  delete_part(part = "header") %>%  #This is the default, but could be body or footer as well
+  add_header_lines(values = c("SUBJECT NARRATIVE"))  %>% 
+align(align = "center", part = "header") %>% 
+  bold(bold = TRUE, part = "header")%>% 
+  width(width = 3) %>% 
+  font(fontname = "Times New Roman", part = "all")
+  
+  ', eval = FALSE) %>% 
+   flair_lines(8:11) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+samp %>% 
+  mutate(age_sex = paste0("Age: ", age, "  ",
+       "Sex: ", sex),  protocol = paste0("Study Protocol Number: ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  delete_part(part = "header") %>%  #This is the default, but could be body or footer as well
+  add_header_lines(values = c("SUBJECT NARRATIVE"))  %>% 
+align(align = "center", part = "header") %>% 
+  bold(bold = TRUE, part = "header")%>% 
+  width(width = 3) %>% 
+  font(fontname = "Times New Roman", part = "all")
+```
+
+This is starting to look closer to what we are looking for. The next step involves putting inner and outer borders into my table. When you use `delete_part` you often lose your borders and need to add them back in. To add and/or modify the way borders look in your table you can use the `border_inner`, `border_outer`, `vline`, and `hline` functions. The last 2 I will cover later, but here we are going to use the `border_inner` and `border_outer` functions to create new lines around and between our cells. To set the properties of your border (color, size, etc.) you need to use the `fp_border` function inside of the `border` functions.
+
+```{r, echo = FALSE}
+ decorate('
+ 
+samp %>% 
+  mutate(age_sex = paste0("Age: ", age, "  ",
+       "Sex: ", sex),  protocol = paste0("Study Protocol Number: ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  delete_part(part = "header") %>%  #This is the default, but could be body or footer as well
+  add_header_lines(values = c("SUBJECT NARRATIVE"))  %>% 
+align(align = "center", part = "header") %>% 
+  bold(bold = TRUE, part = "header")%>% 
+  width(width = 3) %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  border_inner(fp_border(color = "black", width = 2)) %>% 
+  border_outer(fp_border(color = "black", width = 2)) 
+  
+  ', eval = FALSE) %>% 
+   flair_lines(12:13) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+samp %>% 
+  mutate(age_sex = paste0("Age: ", age, "  ",
+       "Sex: ", sex),  protocol = paste0("Study Protocol Number: ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  delete_part(part = "header") %>%  #This is the default, but could be body or footer as well
+  add_header_lines(values = c("SUBJECT NARRATIVE"))  %>% 
+align(align = "center", part = "header") %>% 
+  bold(bold = TRUE, part = "header")%>% 
+  width(width = 3) %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  border_inner(fp_border(color = "black", width = 2)) %>% 
+  border_outer(fp_border(color = "black", width = 2)) 
+```
+
+If you find yourself using the same border properties over and over again, you can always save some space and create a properties object that saves your choices for you.
+
+```{r, echo = FALSE}
+ decorate('
+ border_properties <- fp_border(color = "black", width = 2)
+
+samp %>% 
+  mutate(age_sex = paste0("Age: ", age, "  ",
+       "Sex: ", sex),  protocol = paste0("Study Protocol Number: ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  delete_part(part = "header") %>%  #This is the default, but could be body or footer as well
+  add_header_lines(values = c("SUBJECT NARRATIVE"))  %>% 
+align(align = "center", part = "header") %>% 
+  bold(bold = TRUE, part = "header")%>% 
+  width(width = 3) %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  border_inner(border_properties) %>% 
+  border_outer(border_properties) 
+  
+  ', eval = FALSE) %>% 
+   flair_lines(c(1, 14:15)) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+border_properties <- fp_border(color = "black", width = 2)
+
+samp %>% 
+  mutate(age_sex = paste0("Age: ", age, "  ",
+       "Sex: ", sex),  protocol = paste0("Study Protocol Number: ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  delete_part(part = "header") %>%  #This is the default, but could be body or footer as well
+  add_header_lines(values = c("SUBJECT NARRATIVE"))  %>% 
+align(align = "center", part = "header") %>% 
+  bold(bold = TRUE, part = "header")%>% 
+  width(width = 3) %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  border_inner(border_properties) %>% 
+  border_outer(border_properties) 
+```
+
+The next step is to bold the variable/label names, but leave the values unbolded. This step is actually a bit trickier and requires a few changes to our table. First, we need to use the `colformat_md` function which allows us to use special characters from markdown in our `paste` functions that will apply bold/italics, etc. to specific parts of the text. Then we need to apply the proper characters to our `paste` function. Surrounding a word with `**` on both sides will bold that word and using a `*` on both sides will add italics.
+
+```{r, echo = FALSE}
+ decorate('
+ samp %>% 
+  mutate(age_sex = paste0("**Age:** ", age, "  ",
+       "**Sex:** ", sex),  
+       protocol = paste0("**Study Protocol Number:** ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  delete_part(part = "header") %>%  #This is the default, but could be body or footer as well
+  add_header_lines(values = c("SUBJECT NARRATIVE"))  %>% 
+align(align = "center", part = "header") %>% 
+  bold(bold = TRUE, part = "header")%>% 
+  width(width = 3) %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  border_inner(border_properties) %>% 
+  border_outer(border_properties) %>% 
+  colformat_md() 
+  
+  ', eval = FALSE) %>% 
+   flair_lines(c(2:4, 15)) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+samp %>% 
+  mutate(age_sex = paste0("**Age:** ", age, "  ",
+       "**Sex:** ", sex),  protocol = paste0("**Study Protocol Number:** ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  delete_part(part = "header") %>%  #This is the default, but could be body or footer as well
+  add_header_lines(values = c("SUBJECT NARRATIVE"))  %>% 
+align(align = "center", part = "header") %>% 
+  bold(bold = TRUE, part = "header")%>% 
+  width(width = 3) %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  border_inner(border_properties) %>% 
+  border_outer(border_properties) %>% 
+  colformat_md()
+```
+
+This now looks a lot like the top of our other table. Obviously, this is a lot of work for one row of information. However, most of what we do from now on will be about simply following similar steps and making small changes to each mini-table that we create. First, I want to make sure I save this portion of the table so I can add it to the others later on.
+
+```{r, echo = FALSE}
+ decorate('
+ p1 <- samp %>% 
+  mutate(age_sex = paste0("**Age:** ", age, "  ",
+       "**Sex:** ", sex),  protocol = paste0("**Study Protocol Number:** ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  delete_part(part = "header") %>%  #This is the default, but could be body or footer as well
+  add_header_lines(values = c("SUBJECT NARRATIVE"))  %>% 
+align(align = "center", part = "header") %>% 
+  bold(bold = TRUE, part = "header")%>% 
+  width(width = 3) %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  border_inner(border_properties) %>% 
+  border_outer(border_properties) %>% 
+  colformat_md()
+  
+  ', eval = FALSE) %>% 
+   flair_lines(c(1)) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+p1 <- samp %>% 
+  mutate(age_sex = paste0("**Age:** ", age, "  ",
+       "**Sex:** ", sex),  protocol = paste0("**Study Protocol Number:** ", samp$protocol)) %>% 
+  select(protocol, age_sex) %>% 
+  flextable() %>% 
+  delete_part(part = "header") %>%  #This is the default, but could be body or footer as well
+  add_header_lines(values = c("SUBJECT NARRATIVE"))  %>% 
+align(align = "center", part = "header") %>% 
+  bold(bold = TRUE, part = "header")%>% 
+  width(width = 3) %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  border_inner(border_properties) %>% 
+  border_outer(border_properties) %>% 
+  colformat_md()
+```
+
+The next portion to create is very simple and looks similar to what we have just done. Here the only difference is that we are getting rid of the header row entirely.
+
+```{r}
+p2 <- samp %>% 
+  mutate(subj_id = paste0("**Subject ID Number:** ", subj_id),  
+         case_report = paste0("**Case Report Forms:** ", case_report)) %>% 
+  select(subj_id, case_report) %>%
+  flextable() %>%
+  delete_part() %>% 
+  align(align = "center", part = "header") %>% 
+  bold(bold = TRUE, part = "header")%>% 
+  width(width = 3) %>% 
+  border_inner(border_properties) %>% 
+  border_outer(border_properties) %>% 
+  colformat_md() %>% 
+  font(fontname = "Times New Roman", part = "all")
+p2
+```
+
+So now, we can see what our table is starting to look like if we add together `p1` and `p2`.
+
+```{r, results='hold'}
+p1
+p2
+```
+
+I also want to add in a quick header to the whole table that shows which `subject` I am working on. This will look a lot like plain text, but it is actually going to be another `flextable`.
+
+```{r, echo = FALSE}
+ decorate('
+ p0 <- samp %>% 
+  mutate(subj_id = paste0("Subject ", subj_id, " Subject Narrative:")) %>% 
+  select(subj_id) %>% 
+flextable() %>% 
+  width(width = 6) %>%
+  delete_part() %>% 
+  border_inner(fp_border(color="white", width = .2)) %>%  
+  border_outer(fp_border(color="white", width = .2)) %>%  
+  font(fontname = "Times New Roman")
+  
+  ', eval = FALSE) %>% 
+   flair_lines(c(7:8)) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+p0 <- samp %>% 
+  mutate(subj_id = paste0("Subject ", subj_id, " Subject Narrative:")) %>% 
+  select(subj_id) %>% 
+flextable() %>% 
+  width(width = 6) %>%
+  delete_part() %>% 
+  border_inner(fp_border(color="white", width = .2)) %>%  
+  border_outer(fp_border(color="white", width = .2)) %>%  
+  font(fontname = "Times New Roman")
+```
+
+```{r, results='hold'}
+p0
+p1
+p2
+```
+
+The final portion I want to show in this example is how to change the borders within a cell. Using the `vline` and `hline` series of functions you can change the left, right, top, and bottom borders individually. In this example we also use the `border_remove()` function before adding in our borders using the `vline` function. This allows us to specifically add borders and not have borders wherever we wish. In this case, we use `vline_left`, `vline_right`, and `hline_bottom` to ensure that we have outside borders, but we remove the top border so that we can make the header and data appear to be in one cell, when they are actually in two cells.
+
+```{r, echo = FALSE}
+ decorate('
+ p3 <- samp %>% select(study_med) %>% 
+  flextable() %>%
+ delete_part() %>% 
+ add_header_row(values = c("Study Medications:")) %>% 
+ align(align = "left", part = "header") %>% 
+ bold(bold = TRUE, part = "header")%>% 
+ width(width = 6) %>% 
+ border_remove() %>% 
+ vline_left(border_properties) %>% 
+ vline_right(border_properties) %>% 
+ font(fontname = "Times New Roman", part = "all")
+  
+  ', eval = FALSE) %>% 
+   flair_lines(c(8:10)) %>% 
+   knit_print.with_flair()
+```
+
+```{r, echo = FALSE}
+p3 <- samp %>% select(study_med) %>% 
+  flextable() %>%
+ delete_part() %>% 
+ add_header_row(values = c("Study Medications:")) %>% 
+ align(align = "left", part = "header") %>% 
+ bold(bold = TRUE, part = "header")%>% 
+ width(width = 6) %>% 
+ border_remove() %>% 
+ vline_left(border = border_properties) %>% 
+ vline_right(border = border_properties) %>% 
+ hline_bottom(border = border_properties) %>% 
+ font(fontname = "Times New Roman", part = "all")
+p3
+```
+
+We have now created the top portion of the table pictured above. More customization and data wrangling/cleaning is needed to complete the table, but with these key features you can extend to creating specific types of tables.
+
+```{r, echo = FALSE}
+p0
+p1
+p2
+p3
+```
+
+## Adding Comments into a Markdown Document
+
+In this example, we can add notes or a narrative from an excel document underneath our `flextable`. We can do this by creating a new `flextable` that has no borders, but that will allow us to keep the font/style similar to that of our `flextable`.
+
+We are going to first create a header that simply says "Clinical Summary"
+
+```{r, echo = FALSE}
+s <- paste0("Clinical Summary:")
+p4 <- flextable(as.data.frame(s)) %>% 
+  width(width = 6) %>% 
+  delete_part() %>% 
+  border_inner(border = fp_border(color="white", width = .2)) %>% 
+  border_outer(border = fp_border(color="white", width = .2)) %>% 
+  font(fontname = "Times New Roman")
+```
+
+We then will add in the comments from our sample data.
+
+```{r, echo = FALSE}
+p5 <- flextable(as.data.frame(samp$comments)) %>% 
+  width(width = 6) %>% 
+  delete_part() %>% 
+  border_inner(border = fp_border(color="white", width = .2)) %>% 
+  border_outer(border = fp_border(color="white", width = .2)) %>% 
+  font(fontname = "Times New Roman")
+p4
+p5
+```
+
+The next step I will go over is how we can loop through our subjects and create a new word document for each subject. This will be shown in the [`child/parent`](https://davidmartinconsulting.github.io/Compendium/2_child_parent.html) tutorial.
+
+```{r, echo = FALSE}
+p0 
+p1
+p2
+p3
+p4
+p5
+```
